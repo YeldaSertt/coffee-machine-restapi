@@ -1,1 +1,1 @@
-# coffee-machine-restaenvoriment olarak env2 alanını kullanınız.
+# coffee-machine-restaenvoriment olarak venv2 alanını kullanınız.

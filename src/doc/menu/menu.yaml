@@ -1,0 +1,44 @@
+Coffee-Add
+---
+tags:
+  - COFFEEADD
+parameters :
+  - name: body
+    description: Coffee-Make Machine
+    in: body
+    required : true
+    schema:
+      type: object
+      required:
+        - "drink_name"
+        - "water"
+        - "milk"
+        - "coffee"
+        - "cost"
+      properties:
+        drink_name:
+          type: "string"
+          example: "latte"
+        water:
+          type: "integer"
+          example: "30"
+        milk:
+          type: "integer"
+          example: "30"
+        coffee:
+          type: "integer"
+          example: "30"
+        cost:
+          type: "integer"
+          example: "5"
+
+
+responses:
+  200:
+    description: When a user successfully logs in
+
+  400:
+    description: Fails to login due to bad request data
+
+  401:
+    description: A user supplies incorrect credentials

@@ -1,0 +1,15 @@
+Report About
+---
+tags:
+  - Report About
+parameters:
+  - in: path
+    name: report
+    required: false
+
+responses:
+  302:
+    description: Redirects to the original link
+
+  404:
+    description: Record was not found

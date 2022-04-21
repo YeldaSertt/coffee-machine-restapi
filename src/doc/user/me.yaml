@@ -1,0 +1,15 @@
+User About
+---
+tags:
+  - Users About
+parameters:
+  - in: path
+    name: user me
+    required: true
+
+responses:
+  302:
+    description: Redirects to the original link
+
+  404:
+    description: Record was not found

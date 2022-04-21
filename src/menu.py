@@ -6,24 +6,13 @@ from src.constant.http_status_code import *
 from flask import app,Blueprint,request,jsonify
 from src.database import db,Menu,Ingredients
 import validators
-
+from src.decarator.decarator import decorator_dublicate
+from flasgger import swag_from
 menu = Blueprint("menu", __name__, url_prefix="/api/v1/menu")
-
-def decorator_dublicate(function):
-    @wraps(function)
-    def dublicate_control_decorator(*args,**kwargs):
-        _ = function(*args,**kwargs)
-        drink_name = request.json["drink_name"]
-        for name in Menu.query.all():
-            if drink_name == name.drink_name:
-                print("-5")
-                return jsonify({"message":"burdaa"})
-        return _
-
-    return dublicate_control_decorator
 
 
 @menu.post('/add')
+@swag_from("./doc/menu/menu.yaml")
 def add_menu():
     drink_name = request.json["drink_name"]
     cost = request.json["cost"]
@@ -55,6 +44,7 @@ def add_menu():
         }
     })
 @menu.get("/allmenu")
+@swag_from("./doc/menu/allmenu.yaml")
 def get_menu():
     # mashmallow eklenecek
     menu = Menu.query.all()

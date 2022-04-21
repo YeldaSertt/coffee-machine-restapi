@@ -5,6 +5,7 @@ from flask_jwt_extended import create_access_token ,create_refresh_token ,jwt_re
 from werkzeug.security import check_password_hash, generate_password_hash
 from src.constant.http_status_code import *
 from src.model.report_model import report_schema
+from flasgger import swag_from
 
 
 
@@ -12,6 +13,7 @@ admin = Blueprint("admin", __name__, url_prefix="/api/v1/admin")
 
 
 @admin.post("/login")
+@swag_from("./doc/user/login.yaml")
 def login():
     name = request.json["name"]
     password =  request.json["password"]
@@ -36,6 +38,7 @@ def login():
 
 @admin.get("/me")
 @jwt_required()
+@swag_from("./doc/user/me.yaml")
 def me():
     user_id = get_jwt_identity()
     print(user_id)
@@ -47,6 +50,7 @@ def me():
 
 @admin.get("/report")
 @jwt_required()
+@swag_from("./doc/user/report.yaml")
 def report():
 
     reports = Report.query.all()

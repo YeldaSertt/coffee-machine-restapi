@@ -4,11 +4,12 @@ import os
 from src.menu import menu
 from src.coffee_maker import coffeemaker
 from src.admin import  admin
-from src.report import report
 from flask_marshmallow import Marshmallow
 from src.database import db
-from flasgger import Swagger, swag_from
 from src.confing.swagger import swagger_config,template
+from .report import *
+from flasgger import Swagger
+
 
 
 
@@ -21,12 +22,16 @@ def create_app(test_config=None):
             SQLALCHEMY_DATABASE_URI=os.environ.get("SQLALCHEMY_DB_URI"),
             SQLALCHEMY_TRACK_MODIFICATIONS=False,
             JWT_SECRET_KEY=os.environ.get("JWT_SECRET_KEY"),
-            CACHE_TYPE= os.environ.get("CACHE_TYPE"),  # Flask-Caching related configs
-            CACHE_DEFAULT_TIMEOUT= os.environ.get("CACHE_DEFAULT_TIMEOUT")
+            SWAGGER={
+                'title': "Coffe-Machine API",
+                'uiversion': 3
+            }
 
         )
     else:
         app.config.from_mapping(test_config)
+
+    Swagger(app, config=swagger_config, template=template)
 
     app.register_blueprint(menu)
     app.register_blueprint(coffeemaker)

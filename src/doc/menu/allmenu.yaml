@@ -1,0 +1,14 @@
+ALL MENU
+---
+tags:
+  - ALL MENU
+parameters:
+  - in: path
+    name: all menu
+
+responses:
+  302:
+    description: Redirects to the original link
+
+  404:
+    description: Record was not found

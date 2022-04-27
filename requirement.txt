@@ -6,3 +6,14 @@ validators
 marshmallow
 flasgger
 flask-marshmallow
+
+"""starter = file.find(',')
+    image_data = file[starter + 1:]
+    image_data = bytes(image_data, encoding="ascii")
+    img = Image.open(BytesIO(base64.b64decode(image_data)))
+    img.save('./src/doc/image.jpg')
+
+    return jsonify({
+        'msg': 'success',
+        'img': os.path.abspath("./src/doc/image.jpg")
+    })"""

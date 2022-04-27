@@ -22,6 +22,7 @@ def create_app(test_config=None):
             SQLALCHEMY_DATABASE_URI=os.environ.get("SQLALCHEMY_DB_URI"),
             SQLALCHEMY_TRACK_MODIFICATIONS=False,
             JWT_SECRET_KEY=os.environ.get("JWT_SECRET_KEY"),
+            UPLOAD_FOLDER=os.environ.get("UPLOAD_FOLDER"),
             SWAGGER={
                 'title': "Coffe-Machine API",
                 'uiversion': 3

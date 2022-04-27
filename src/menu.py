@@ -1,15 +1,18 @@
-from time import sleep
-from functools import wraps, partial
-import response
-from src.constant.http_status_code import *
 
-from flask import app,Blueprint,request,jsonify
+from src.constant.http_status_code import *
+from PIL import Image
+import base64
+from werkzeug.utils import secure_filename
+import os
+from io import BytesIO
+
+from flask import app,Blueprint,request,jsonify,url_for
 from src.database import db,Menu,Ingredients
 import validators
-from src.decarator.decarator import decorator_dublicate
+from src.decarator.decarator import decorator_dublicate,decorator_image
 from flasgger import swag_from
 menu = Blueprint("menu", __name__, url_prefix="/api/v1/menu")
-
+ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'}
 
 @menu.post('/add')
 @swag_from("./doc/menu/menu.yaml")
@@ -79,8 +82,21 @@ def about(id):
         "ingredients":data
     }),HTTP_200_OK
 
+@menu.post('/image')
+@decorator_image
+@swag_from("./doc/menu/image.yaml")
+def image():
+
+    file = request.files["file"]
+    with open(f"{os.environ.get('UPLOAD_FOLDER')}/{file.filename}", "rb") as image_file:
+        data = base64.b64encode(image_file.read())
+
+    return  jsonify({"message":"success","base64_format": str(data)})
+
 
 @menu.get("/hello2")
 def say_hello():
     text = "helloo3"
     return  jsonify({"message": f"{text}"})
+
+

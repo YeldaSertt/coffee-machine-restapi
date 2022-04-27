@@ -1,0 +1,15 @@
+Create a MyModel
+---
+tags:
+  - IMAGE LOAD
+parameters:
+    - name: path
+      description: file
+      required: True
+      type: file
+responses:
+  302:
+    description: Redirects to the original link
+
+  404:
+    description: Record was not found

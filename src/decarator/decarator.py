@@ -2,6 +2,8 @@ from flask import app,Blueprint,request,jsonify
 from src.database import Menu,Ingredients,Report,db
 from src.constant.http_status_code import *
 from functools import wraps, partial
+from werkzeug.utils import secure_filename
+import os
 from src.model.model import coffee_schemas,coffee_schema
 from flasgger import swag_from
 
@@ -41,3 +43,20 @@ def decorator_dublicate(function):
         return _
 
     return dublicate_control_decorator
+
+def decorator_image(function):
+    @wraps(function)
+    def allowed_file(*args,**kwargs):
+        if "file" not in request.files:
+            return jsonify({"message": "Not found files"}), HTTP_404_NOT_FOUND
+        elif request.files["file"].filename == "":
+            return  jsonify({"message": "İmage nor found"}),HTTP_404_NOT_FOUND
+        else:
+            file = request.files["file"]
+            filename = secure_filename(file.filename)
+            file.save(os.path.join(os.environ.get("UPLOAD_FOLDER"), filename))
+            #print('upload_image filename: ' + filename)
+            #return  jsonify({"message":"Image successfully uploaded and displayed below", "filename":filename })
+        return function(*args,**kwargs)
+
+    return allowed_file
